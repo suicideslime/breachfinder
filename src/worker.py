@@ -7,9 +7,16 @@ from config import Config
 from tqdm import tqdm
 from threading import Lock
 import time
-import telegram
 import sys
 import os
+
+# Try to import telegram, but make it optional
+try:
+    import telegram
+    TELEGRAM_AVAILABLE = True
+except ImportError:
+    TELEGRAM_AVAILABLE = False
+    telegram = None
 
 class CredentialWorker:
     def __init__(self, config: Config):
@@ -30,9 +37,15 @@ class CredentialWorker:
         self.processed_file = 'processed.txt'
         self.processed_credentials = self.load_processed_credentials()
 
-        # Initialize Telegram bot
-        self.bot = telegram.Bot(token='6549576274:AAFMGbRLtL1l7aUZWglnpLWQLKuCDCO0Z5g')
+        # Initialize Telegram bot if available
+        self.bot = None
         self.chat_id = '5217459733'
+        if TELEGRAM_AVAILABLE:
+            try:
+                self.bot = telegram.Bot(token='6549576274:AAFMGbRLtL1l7aUZWglnpLWQLKuCDCO0Z5g')
+            except Exception as e:
+                self.logger.warning(f"Failed to initialize Telegram bot: {str(e)}")
+                self.bot = None
 
     def update_progress(self):
         """Update the progress bar in a thread-safe way"""
@@ -43,6 +56,10 @@ class CredentialWorker:
 
     def send_telegram_message(self, message: str):
         """Send a message to the Telegram bot"""
+        # Check if telegram is available and bot is initialized
+        if not TELEGRAM_AVAILABLE or self.bot is None:
+            return
+            
         try:
             self.bot.send_message(chat_id=self.chat_id, text=message)
         except Exception as e:
@@ -78,7 +95,7 @@ class CredentialWorker:
                 self.save_processed_credential(credential)
                 self.update_progress()
                 self.cred_queue.task_done()
-            except Queue.Empty:
+            except Queue.empty():
                 break
             except Exception as e:
                 self.logger.error(f"Error processing credential: {str(e)}")
@@ -134,7 +151,12 @@ class CredentialWorker:
         """Listen for the 'q' key to stop the program"""
         print("Press 'q' to stop the program.")
         while not self.stop_flag.is_set():
-            if input().strip().lower() == 'q':
-                self.logger.info("Stopping program...")
-                self.stop_flag.set()
-                break 
+            try:
+                if input().strip().lower() == 'q':
+                    self.logger.info("Stopping program...")
+                    self.stop_flag.set()
+                    break
+            except EOFError:
+                # Handle case where input is not available (e.g., in a thread)
+                time.sleep(1)  # Wait a bit before checking again
+                continue

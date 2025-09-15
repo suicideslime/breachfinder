@@ -1,0 +1,8 @@
+http://example.com/login|testuser1|password123
+http://demo.com/signin|user|userpass
+http://test.com/auth|admin|adminpass
+http://example.com/login|admin|password123
+http://testsite.org/auth|user|testpass
+https://demo.example.com|demo|demopass
+https://secure.example.com|security|securepass
+http://localhost:8080/login|testuser|test123

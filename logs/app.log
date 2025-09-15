@@ -13791,3 +13791,46 @@
 2025-02-19 10:52:39,305 - BreachFinder - INFO - Valid credential found: https://signup.live.com/signup|maymon1223@outlook.com|aymon1223@
 2025-02-19 10:50:59,663 - BreachFinder - INFO - Valid credential found: https://rutracker.net/forum/login.php|Romeo loves lena|555551
 2025-02-19 10:52:39,671 - BreachFinder - INFO - Valid credential found: https://worldchat.tv/|sobanabbasi725@gmail.com|5.1q1jcc8a.o0a
+2025-09-15 08:11:46,966 - BreachFinder - INFO - Starting White Hat Breach Finder
+2025-09-15 10:01:54,880 - BreachFinder - INFO - Starting White Hat Breach Finder
+2025-09-15 10:01:54,888 - BreachFinder - INFO - Reading credentials from test_credentials.txt
+2025-09-15 10:01:54,888 - BreachFinder - INFO - Reading credentials from test_credentials.txt
+2025-09-15 10:01:55,033 - BreachFinder - INFO - Found 3 credentials to check
+2025-09-15 10:01:55,033 - BreachFinder - INFO - Found 3 credentials to check
+2025-09-15 10:01:55,034 - BreachFinder - INFO - Starting credential check with 4 threads
+2025-09-15 10:01:55,034 - BreachFinder - INFO - Starting credential check with 4 threads
+2025-09-15 10:02:04,852 - BreachFinder - INFO - No valid credentials found
+2025-09-15 10:02:04,852 - BreachFinder - INFO - No valid credentials found
+2025-09-15 10:06:32,284 - BreachFinder - INFO - Starting White Hat Breach Finder
+2025-09-15 10:06:32,657 - BreachFinder - INFO - Reading credentials from test_credentials.txt
+2025-09-15 10:06:32,657 - BreachFinder - INFO - Reading credentials from test_credentials.txt
+2025-09-15 10:06:32,660 - BreachFinder - INFO - Found 3 credentials to check
+2025-09-15 10:06:32,660 - BreachFinder - INFO - Found 3 credentials to check
+2025-09-15 10:06:32,661 - BreachFinder - INFO - Starting credential check with 4 threads
+2025-09-15 10:06:32,661 - BreachFinder - INFO - Starting credential check with 4 threads
+2025-09-15 10:06:33,080 - BreachFinder - INFO - No valid credentials found
+2025-09-15 10:06:33,080 - BreachFinder - INFO - No valid credentials found
+2025-09-15 10:19:45,200 - BreachFinder - INFO - Starting White Hat Breach Finder
+2025-09-15 10:19:45,222 - BreachFinder - INFO - Reading credentials from test_credentials.txt
+2025-09-15 10:19:45,222 - BreachFinder - INFO - Reading credentials from test_credentials.txt
+2025-09-15 10:19:45,638 - BreachFinder - INFO - Found 3 credentials to check
+2025-09-15 10:19:45,638 - BreachFinder - INFO - Found 3 credentials to check
+2025-09-15 10:19:45,672 - BreachFinder - INFO - Starting credential check with 4 threads
+2025-09-15 10:19:45,672 - BreachFinder - INFO - Starting credential check with 4 threads
+2025-09-15 10:19:45,945 - BreachFinder - INFO - No valid credentials found
+2025-09-15 10:19:45,945 - BreachFinder - INFO - No valid credentials found
+2025-09-15 11:41:02,400 - BreachFinder - INFO - Starting White Hat Breach Finder
+2025-09-15 11:41:02,468 - BreachFinder - INFO - Reading credentials from data/credentials.txt
+2025-09-15 11:41:02,468 - BreachFinder - INFO - Reading credentials from data/credentials.txt
+2025-09-15 11:41:02,550 - BreachFinder - INFO - Found 5 credentials to check
+2025-09-15 11:41:02,550 - BreachFinder - INFO - Found 5 credentials to check
+2025-09-15 11:41:02,557 - BreachFinder - INFO - Starting credential check with 2 threads
+2025-09-15 11:41:02,557 - BreachFinder - INFO - Starting credential check with 2 threads
+2025-09-15 11:41:12,687 - BreachFinder - ERROR - Request error for https://demo.example.com: HTTPSConnectionPool(host='demo.example.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002259FA12990>: Failed to resolve 'demo.example.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:41:12,687 - BreachFinder - ERROR - Request error for https://demo.example.com: HTTPSConnectionPool(host='demo.example.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002259FA12990>: Failed to resolve 'demo.example.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:41:19,534 - BreachFinder - ERROR - Request error for https://secure.example.com: HTTPSConnectionPool(host='secure.example.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002259FA9C410>: Failed to resolve 'secure.example.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:41:19,534 - BreachFinder - ERROR - Request error for https://secure.example.com: HTTPSConnectionPool(host='secure.example.com', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002259FA9C410>: Failed to resolve 'secure.example.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:41:33,673 - BreachFinder - ERROR - Request error for http://localhost:8080/login: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /login (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002259F9EB0B0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-09-15 11:41:33,673 - BreachFinder - ERROR - Request error for http://localhost:8080/login: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /login (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002259F9EB0B0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-09-15 11:41:33,678 - BreachFinder - INFO - No valid credentials found
+2025-09-15 11:41:33,678 - BreachFinder - INFO - No valid credentials found

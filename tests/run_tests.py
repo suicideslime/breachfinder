@@ -6,10 +6,10 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import test modules
-from test_config import TestConfig
-from test_credential import TestCredential
-from test_checker import TestCredentialChecker
-from test_worker import TestCredentialWorker
+from tests.test_config import TestConfig
+from tests.test_credential import TestCredential
+from tests.test_checker import TestCredentialChecker
+from tests.test_worker import TestCredentialWorker
 
 def run_tests():
     # Create test suite
