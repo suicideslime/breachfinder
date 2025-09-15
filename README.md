@@ -1,155 +1,167 @@
-# White Hat Breach Finder Application
+# White Hat Breach Finder
 
-## Overview
+## What is this tool?
 
-The **White Hat Breach Finder** is a Python-based application designed to help users identify potential security breaches by analyzing login credentials stored in a `.txt` file. The application validates these credentials by attempting to authenticate against specified URLs. Valid credentials are saved in a separate file for further investigation. The application supports multi-threading, allowing users to specify the number of threads for concurrent processing.
+The White Hat Breach Finder is a security tool that helps you check if login credentials (username/password combinations) are valid by testing them against websites. It's designed for ethical security testing - to help you identify weak passwords in your own systems or with proper authorization.
 
-## Features
+## How it works
 
-- **File Upload**: Users can upload a `.txt` file containing login credentials in the format `url|user|pass`.
-- **Credential Validation**: The application checks the validity of credentials by authenticating against the specified URLs.
-- **Multi-threading**: Users can specify the number of threads for concurrent processing.
-- **Output File**: Valid credentials are saved in a file named `valid.txt`.
-- **User-Friendly Interface**: The application prompts users for the file path and the number of threads, making it easy to use.
+1. You create a file with login credentials in the format: `website_url|username|password`
+2. The tool tries to log in to each website using the provided credentials
+3. Valid logins are saved to a results file
+4. You can see progress in real-time
 
-## Application Flow
+## Prerequisites
 
-1. **Initialization**: 
-   - The application displays a welcome message and prompts the user to enter the file path of the `.txt` file containing the credentials.
+Before using this tool, make sure you have:
+- Python 3.7 or higher installed
+- Internet connection
+- Proper authorization to test the websites in your credentials file
 
-2. **File Reading**: 
-   - The application reads the `.txt` file line by line, expecting each line to be in the format `url|user|pass`.
+## Installation
 
-3. **Credential Validation**: 
-   - For each line, the application extracts the URL, username, and password, then attempts to authenticate against the URL using the provided credentials. Successful authentications are considered valid.
+1. Download or clone this repository
+2. Open a terminal/command prompt in the project folder
+3. Install required packages:
+   ```
+   pip install -r requirements.txt
+   ```
 
-4. **Multi-threading**: 
-   - Users specify the number of threads for concurrent processing, allowing the application to divide the workload among the specified threads to speed up validation.
+## Using the Web Interface (Recommended for Beginners)
 
-5. **Saving Valid Credentials**: 
-   - Valid credentials are saved in a file named `valid.txt` in the same directory as the script, maintaining the format `url|user|pass`.
+The web interface is the easiest way to use this tool:
 
-6. **Completion**: 
-   - After processing all credentials, the application displays a completion message and exits.
+1. Start the web server:
+   ```
+   python src/run_web.py
+   ```
 
-## Database Schema
+2. Open your browser and go to: http://localhost:5000
 
-The application can utilize a simple database schema to store valid credentials and logs. Below is a suggested schema:
+3. You'll see a simple form where you can:
+   - Upload your credentials file
+   - Set the number of threads (concurrent tests)
+   - Set rate limits (requests per second)
 
-### Tables
+4. Click "Start Check" and watch the progress
 
-1. **Users**
-   - `id` (INTEGER, Primary Key, Auto Increment)
-   - `url` (TEXT, NOT NULL)
-   - `username` (TEXT, NOT NULL)
-   - `password` (TEXT, NOT NULL)
-   - `created_at` (DATETIME, DEFAULT CURRENT_TIMESTAMP)
+## Using the Command Line Interface
 
-2. **Logs**
-   - `id` (INTEGER, Primary Key, Auto Increment)
-   - `user_id` (INTEGER, Foreign Key referencing Users(id))
-   - `status` (TEXT, NOT NULL)  // e.g., 'valid', 'invalid', 'error'
-   - `timestamp` (DATETIME, DEFAULT CURRENT_TIMESTAMP)
+If you prefer the command line:
 
-## Optimal Folder Structure
+1. Prepare your credentials file with entries like:
+   ```
+   http://example.com/login|admin|password123
+   https://testsite.org/auth|user|testpass
+   ```
 
-To maintain a clean and organized project, consider the following folder structure:
+2. Run the tool:
+   ```
+   python src/main.py -i data/credentials.txt -t 4
+   ```
 
+### Command Line Options
+
+- `-i, --input FILE` - Input file with credentials (required)
+- `-t, --threads N` - Number of concurrent threads (default: 4)
+- `--timeout SECONDS` - Request timeout (default: 10)
+- `-o, --output FILE` - Output file for valid credentials (default: data/valid.txt)
+- `--rate-limit N` - Requests per second limit (default: 2)
+
+Example with more options:
 ```
-white_hat_breach_finder/
-│
-├── src/                     # Source code directory
-│   ├── main.py              # Main application script
-│   ├── credential_checker.py # Module for credential validation
-│   ├── worker.py            # Module for worker threads
-│   └── utils.py             # Utility functions
-│
-├── data/                    # Data directory
-│   ├── valid.txt            # Output file for valid credentials
-│   └── credentials.txt      # Input file for credentials
-│
-├── logs/                    # Log files directory
-│   └── app.log              # Application log file
-│
-├── tests/                   # Test directory
-│   ├── test_main.py         # Tests for main application
-│   └── test_utils.py        # Tests for utility functions
-│
-├── requirements.txt         # Python dependencies
-└── README.md                # Project documentation
+python src/main.py -i data/credentials.txt -t 8 --timeout 15 --rate-limit 3
 ```
 
-## Code Structure
+## Understanding the Results
 
-### Main Script
+- Valid credentials are saved to `data/valid.txt`
+- Logs are saved to `logs/app.log`
+- Progress is shown in the terminal or web interface
 
-```python
-import threading
-import requests
-from queue import Queue
+## Security Considerations
 
-# Function to check the validity of credentials
-def check_credential(url, user, passw, valid_queue):
-    try:
-        # Example of a simple POST request for authentication
-        response = requests.post(url, data={'username': user, 'password': passw})
-        if response.status_code == 200:
-            valid_queue.put(f"{url}|{user}|{passw}")
-    except requests.RequestException as e:
-        print(f"Error checking {url}: {e}")
+⚠️ **Important**: Only use this tool on:
+- Systems you own
+- Systems you have explicit permission to test
+- Test environments, not production systems
 
-# Worker function to process the queue
-def worker(cred_queue, valid_queue):
-    while not cred_queue.empty():
-        url, user, passw = cred_queue.get()
-        check_credential(url, user, passw, valid_queue)
-        cred_queue.task_done()
+The tool includes safeguards like rate limiting to prevent overwhelming servers.
 
-# Main function
-def main():
-    file_path = input("Insert the file path: ")
-    num_threads = int(input("Set the number of threads: "))
+## File Formats
 
-    cred_queue = Queue()
-    valid_queue = Queue()
-
-    # Read the file and populate the queue
-    with open(file_path, 'r') as file:
-        for line in file:
-            url, user, passw = line.strip().split('|')
-            cred_queue.put((url, user, passw))
-
-    # Create and start threads
-    for _ in range(num_threads):
-        threading.Thread(target=worker, args=(cred_queue, valid_queue)).start()
-
-    # Wait for all threads to finish
-    cred_queue.join()
-
-    # Save valid credentials to valid.txt
-    with open('valid.txt', 'w') as valid_file:
-        while not valid_queue.empty():
-            valid_file.write(valid_queue.get() + "\n")
-
-    print("Process completed. Valid credentials saved in valid.txt.")
-
-if __name__ == "__main__":
-    main()
+### Credentials File Format
+Create a text file with one credential per line:
+```
+url|username|password
 ```
 
-### Explanation of the Code
+Example:
+```
+http://example.com/login|admin|password123
+https://testsite.org/auth|user|testpass
+```
 
-- **check_credential Function**: Validates credentials by attempting to authenticate against the URL. If successful, it adds the credentials to the `valid_queue`.
-- **worker Function**: Processes credentials from the `cred_queue`, calling `check_credential` for each set and marking the task as done once processed.
-- **main Function**: Initializes queues, reads the input file, populates the `cred_queue`, creates and starts threads, and saves valid credentials to `valid.txt` after processing.
+### Valid Credentials Output
+Valid credentials are saved in the same format:
+```
+http://example.com/login|admin|password123
+```
 
-## Usage Instructions
+## Troubleshooting
 
-1. **Prepare the Input File**: Create a `.txt` file with credentials in the format `url|user|pass`.
-2. **Run the Script**: Execute the script using Python. When prompted, enter the file path of the `.txt` file and specify the number of threads to use.
-3. **Review the Output**: After completion, check the `valid.txt` file for valid credentials.
+### Common Issues
 
-## Conclusion
+1. **"Module not found" errors**
+   - Run: `pip install -r requirements.txt`
 
-The **White Hat Breach Finder** is a powerful tool for identifying potential security breaches by validating login credentials. Its multi-threaded design ensures efficient processing, making it suitable for large datasets. By following the structured flow and code provided, cybersecurity professionals can easily implement and customize this application to meet their specific needs.
+2. **Connection errors**
+   - Check if the URLs in your credentials file are accessible
+   - Verify your internet connection
 
+3. **Permission errors**
+   - Make sure you have write permissions in the project folder
+
+4. **Slow performance**
+   - Reduce the number of threads
+   - Increase timeout values for slow websites
+
+### Getting Help
+
+If you encounter issues:
+1. Check the logs in `logs/app.log`
+2. Ensure you're using Python 3.7+
+3. Verify all dependencies are installed
+
+## Example Workflow
+
+1. Create `data/credentials.txt`:
+   ```
+   http://localhost:8080/login|admin|admin123
+   http://testsite.local/auth|user|password
+   ```
+
+2. Run the web interface:
+   ```
+   python src/run_web.py
+   ```
+
+3. Visit http://localhost:5000 in your browser
+
+4. Upload your credentials file
+
+5. Click "Start Check"
+
+6. View results in your browser and in `data/valid.txt`
+
+## Contributing
+
+This is an educational tool. Feel free to:
+- Report issues
+- Suggest improvements
+- Add new authentication methods
+- Improve the web interface
+
+## License
+
+This tool is for educational purposes. Use responsibly and ethically.
